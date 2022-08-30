@@ -1,0 +1,25 @@
+{
+  "name": "node-red-contrib-html-to-pdf",
+  "version": "1.0.0",
+  "description": " Node-RED node for converting HTML files to PDF, using the Puppeteer library.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martip/node-red-contrib-html-to-pdf.git"
+  },
+  "keywords": [
+    "node-red",
+    "pdf",
+    "html",
+    "puppeteer"
+  ],
+  "author": "Paolo Martino",
+  "license": "MIT",
+  "node-red": {
+    "nodes": {
+      "html-to-pdf": "html-to-pdf/html-to-pdf.js"
+    }
+  },
+  "dependencies": {
+    "puppeteer": "^16.2.0"
+  }
+}

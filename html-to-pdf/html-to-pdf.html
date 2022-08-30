@@ -1,0 +1,221 @@
+<script type="text/html" data-template-name="html-to-pdf">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-format"><i class="fa fa-print"></i> Format</label>
+    <select id="node-input-format">
+      <option>Letter</option>
+      <option>Legal</option>
+      <option>Tabloid</option>
+      <option>Ledger</option>
+      <option>A0</option>
+      <option>A1</option>
+      <option>A2</option>
+      <option>A3</option>
+      <option>A4</option>
+      <option>A5</option>
+      <option>A6</option>
+      <option value="custom">Custom...</option>
+    </select>
+  </div>
+  <div id="dimensions">
+    <div class="form-row">
+      <label for="node-input-width"><i class="fa fa-arrows-h"></i> Width</label>
+      <input type="text" id="node-input-width" style="width: 120px;" />
+      <input type="hidden" id="node-input-width-type" />
+      <select id="node-input-width-unit" style="width: 60px;">
+        <option selected="true">px</option>
+        <option>in</option>
+        <option>cm</option>
+        <option>mm</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label for="node-input-height"><i class="fa fa-arrows-v" style="width: 14px; text-align: center;"></i> Height</label>
+      <input type="text" id="node-input-height" style="width: 120px;" />
+      <input type="hidden" id="node-input-height-type" />
+      <select id="node-input-height-unit" style="width: 60px;">
+        <option selected="true">px</option>
+        <option>in</option>
+        <option>cm</option>
+        <option>mm</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-row">
+    <label for="node-input-orientation"><i class="fa fa-repeat"></i> Orientation</label>
+    <select id="node-input-orientation">
+      <option>Portrait</option>
+      <option>Landscape</option>
+    </select> 
+  </div>
+  <div class="form-row">
+    <label for="node-input-zoom"><i class="fa fa-search"></i> Zoom</label>
+    <input type="text" id="node-input-zoom" style="width: 50px;" />&nbsp;%
+  </div>
+  <div class="form-row">
+    <label for="node-input-marginTop"><i class="fa fa-file-o"></i> Margins</label>
+    <label for="node-input-marginTop" style="width: 50px;"> Top</label>
+    <input type="text" id="node-input-marginTop" style="text-align:end; width:40px !important">
+    <select id="node-input-marginTopUnits" style="width:90px !important">
+      <option value="in">in</option>
+      <option value="cm">cm</option>
+      <option value="mm">mm</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-marginLeft"></label>
+    <label for="node-input-marginLeft" style="width: 50px;"> Left</label>
+    <input type="text" id="node-input-marginLeft" style="text-align:end; width:40px !important">
+    <select id="node-input-marginLeftUnits" style="width:90px !important">
+      <option value="in">in</option>
+      <option value="cm">cm</option>
+      <option value="mm">mm</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-marginBottom"></label>
+    <label for="node-input-marginBottom" style="width: 50px;"> Bottom</label>
+    <input type="text" id="node-input-marginBottom" style="text-align:end; width:40px !important">
+    <select id="node-input-marginBottomUnits" style="width:90px !important">
+      <option value="in">in</option>
+      <option value="cm">cm</option>
+      <option value="mm">mm</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-marginRight"></label>
+    <label for="node-input-marginRight" style="width: 50px;"> Right</label>
+    <input type="text" id="node-input-marginRight" style="text-align:end; width:40px !important">
+    <select id="node-input-marginRightUnits" style="width:90px !important">
+      <option value="in">in</option>
+      <option value="cm">cm</option>
+      <option value="mm">mm</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-omitBackground"><i class="fa fa-picture-o"></i> Background</label>
+    <input type="checkbox" id="node-input-omitBackground" style="display: inline-block; width: auto; vertical-align: top;" />
+    <label for="node-input-omitBackground" style="width: 70%">Hide white background</label>
+  </div>
+  <div class="form-row">
+    <label for="node-input-printGraphics">&nbsp;</label>
+    <input type="checkbox" id="node-input-printGraphics" style="display: inline-block; width: auto; vertical-align: top;" />
+    <label for="node-input-printGraphics" style="width: 70%">Print background graphics</label>
+  </div>
+</script>
+
+<script type="text/html" data-help-name="html-to-pdf">
+  <p>A function that converts the HTML found in <code>msg.payload</code> to PDF, using the <strong>Puppeteer</strong> library.</p>
+  <h3>Inputs</h3>
+  <dl class="message-properties">
+    <dt>payload <span class="property-type">string</span></dt>
+    <dd>The HTML source code.</dd>
+  </dl>
+
+  <h3>Outputs</h3>
+
+  <dl class="message-properties">
+    <dt>payload <span class="property-type">buffer</span></dt>
+    <dd>The PDF.</dd>
+  </dl>
+
+  <h3>Details</h3>
+
+  <p>Various options can be set in the node configuration dialog:</p>
+  <ul>
+    <li>Format (letter, legal, tabloid, ledger, A0, A1, A2, A3, A4, A5, A6, custom)</li>
+    <li>Orientation (portrait, landscape)</li>
+    <li>Zoom (10% to 200%)</li>
+    <li>Margins</li>
+    <li>Transparent background</li>
+    <li>Show or hide background graphics</li>
+  </ul>
+
+  <h3>References</h3>
+
+  <ul>
+    <li><a href="https://pptr.dev/">Puppeteer</a> - details of the <strong>Puppeteer</strong> library</li>
+  </ul>
+</script>
+
+<script type="text/javascript">
+
+  const toggleDimensions = (show) => {
+    if (show) {
+      $('#dimensions').show();
+    } else {
+      $('#dimensions').hide();
+      $('#node-input-width').val('');
+      $('#node-input-height').val('');
+    }
+  };
+
+  RED.nodes.registerType('html-to-pdf', {
+    category: 'function',
+    color:'#E9967A',
+    defaults: {
+      name: { value: '' },
+      format: { value: 'A4' },
+      zoom: { value: 100, validate: (v) => {
+        return !isNaN(v) && parseInt(v) >= 10 && parseInt(v) <= 200;
+      }},
+      orientation: { value: 'Portrait' },
+      width: { validate: (v) => {
+        return $('#node-input-format').val() === 'custom' ? v.trim() !== '' && !isNaN(v) : true;
+      }},
+      height: { validate: (v) => {
+        return $('#node-input-format').val() === 'custom' ? v.trim() !== '' && !isNaN(v) : true;
+      }},
+      marginTop: { value: 1 },
+      marginLeft: { value: 1 },
+      marginBottom: { value: 1 },
+      marginRight: { value: 1 },
+      marginTopUnits: { value: 'cm' },
+      marginLeftUnits: { value: 'cm' },
+      marginBottomUnits: { value: 'cm' },
+      marginRightUnits: { value: 'cm' },
+      omitBackground: { value: false },
+      printGraphics: { value: true }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: 'html-to-pdf.svg',
+    label: function() {
+      return this.name || 'html to pdf' ;
+    },
+    labelStyle: function() {
+      return this.name ? 'node_label_italic' : '';
+    },
+    paletteLabel: 'html to pdf',
+    oneditprepare: () => {
+
+      toggleDimensions($('#node-input-format').val() === 'custom');
+
+      
+      $('#node-input-format').on('change', (e) => {
+        toggleDimensions(e.currentTarget.value === 'custom');
+      });
+      
+      $('#node-input-zoom').spinner({ min: 10, max: 200, step: 1 });
+
+      $('#node-input-marginTop').spinner({ min: 0.0, max: 100.0, step: 0.1 });
+      $('#node-input-marginLeft').spinner({ min: 0.0, max: 100.0, step: 0.1 });
+      $('#node-input-marginBottom').spinner({ min: 0.0, max: 100.0, step: 0.1 });
+      $('#node-input-marginRight').spinner({ min: 0.0, max: 100.0, step: 0.1 });
+
+      $('#node-input-width').typedInput({
+        type: 'num',
+        types:['num'],
+        typeField: "#node-input-width-type"
+      });
+      $('#node-input-height').typedInput({
+        type: 'num',
+        types:['num'],
+        typeField: "#node-input-height-type"
+      });
+    }
+  });
+</script>
