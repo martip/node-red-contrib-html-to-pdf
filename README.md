@@ -1,4 +1,4 @@
-# node-red-contrib-echarts
+# node-red-contrib-html-to-pdf
 
 A [Node-RED](https://nodered.org/) node that converts HTML to PDF, using the [Puppeteer](https://pptr.dev/) library.
 
