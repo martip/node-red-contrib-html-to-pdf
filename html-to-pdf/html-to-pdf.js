@@ -25,10 +25,9 @@ module.exports = function(RED) {
 
     this.options = {};
 
-    this.options.format = config.format;
-    if (this.options.format === 'custom') {
-      this.options.width = config.width !== '' && !isNaN(config.width) ? parseInt(config.width) : 1024;
-      this.options.height = config.height !== '' && !isNaN(config.height) ? parseInt(config.height) : 768;
+    if (config.format === 'custom') {
+      this.options.width = config.width !== '' && !isNaN(config.width) ? `${parseInt(config.width)}${config.widthUnit}` : 1024;
+      this.options.height = config.height !== '' && !isNaN(config.height) ? `${parseInt(config.height)}${config.heightUnit}` : 768;
     }
     this.options.landscape = config.orientation === 'Landscape';
     this.options.omitBackground = config.omitBackground;
