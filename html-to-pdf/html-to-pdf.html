@@ -25,8 +25,8 @@
       <label for="node-input-width"><i class="fa fa-arrows-h"></i> Width</label>
       <input type="text" id="node-input-width" style="width: 120px;" />
       <input type="hidden" id="node-input-width-type" />
-      <select id="node-input-width-unit" style="width: 60px;">
-        <option selected="true">px</option>
+      <select id="node-input-widthUnit" style="width: 60px;">
+        <option>px</option>
         <option>in</option>
         <option>cm</option>
         <option>mm</option>
@@ -36,8 +36,8 @@
       <label for="node-input-height"><i class="fa fa-arrows-v" style="width: 14px; text-align: center;"></i> Height</label>
       <input type="text" id="node-input-height" style="width: 120px;" />
       <input type="hidden" id="node-input-height-type" />
-      <select id="node-input-height-unit" style="width: 60px;">
-        <option selected="true">px</option>
+      <select id="node-input-heightUnit" style="width: 60px;">
+        <option>px</option>
         <option>in</option>
         <option>cm</option>
         <option>mm</option>
@@ -169,6 +169,8 @@
       height: { validate: (v) => {
         return $('#node-input-format').val() === 'custom' ? v.trim() !== '' && !isNaN(v) : true;
       }},
+      widthUnit: { value: 'cm' },
+      heightUnit: { value: 'cm' },
       marginTop: { value: 1 },
       marginLeft: { value: 1 },
       marginBottom: { value: 1 },
