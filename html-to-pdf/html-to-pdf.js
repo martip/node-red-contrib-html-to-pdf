@@ -3,8 +3,8 @@ const puppeteer = require('puppeteer')
 const printPDF = async (html, options) => {
 
 //  const pathToHtml = path.join(__dirname, filename);
-
-  const browser = await puppeteer.launch({ headless: true });
+  puppeteer_args = process.env.puppeteer_args;
+  const browser = await puppeteer.launch({ headless: true , args: puppeteer_args});
   const page = await browser.newPage();
   await page.setContent(html, { waitUntil: 'networkidle0' });
 
