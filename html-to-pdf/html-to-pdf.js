@@ -3,8 +3,8 @@ const puppeteer = require('puppeteer')
 const printPDF = async (html, options) => {
 
 //  const pathToHtml = path.join(__dirname, filename);
-
-  const browser = await puppeteer.launch({ headless: true });
+  puppeteer_args = process.env.puppeteer_args.split(',');
+  const browser = await puppeteer.launch({ headless: true , args: puppeteer_args});
   const page = await browser.newPage();
   await page.setContent(html, { waitUntil: 'networkidle0' });
 
@@ -25,10 +25,9 @@ module.exports = function(RED) {
 
     this.options = {};
 
-    this.options.format = config.format;
-    if (this.options.format === 'custom') {
-      this.options.width = config.width !== '' && !isNaN(config.width) ? parseInt(config.width) : 1024;
-      this.options.height = config.height !== '' && !isNaN(config.height) ? parseInt(config.height) : 768;
+    if (config.format === 'custom') {
+      this.options.width = config.width !== '' && !isNaN(config.width) ? `${parseInt(config.width)}${config.widthUnit}` : 1024;
+      this.options.height = config.height !== '' && !isNaN(config.height) ? `${parseInt(config.height)}${config.heightUnit}` : 768;
     }
     this.options.landscape = config.orientation === 'Landscape';
     this.options.omitBackground = config.omitBackground;
