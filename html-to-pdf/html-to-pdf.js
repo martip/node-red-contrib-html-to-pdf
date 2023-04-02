@@ -1,24 +1,37 @@
-const puppeteer = require('puppeteer')
+const puppeteer = require('puppeteer');
 
 const printPDF = async (html, options) => {
+  //  const pathToHtml = path.join(__dirname, filename);
+  let puppeteer_args;
+  if (process.env && process.env.puppeteer_args) {
+    try {
+      puppeteer_args = process.env.puppeteer_args.split(',');
+    } catch {
+      puppeteer_args = [];
+    }
+  }
 
-//  const pathToHtml = path.join(__dirname, filename);
-  puppeteer_args = process.env.puppeteer_args.split(',');
-  const browser = await puppeteer.launch({ headless: true , args: puppeteer_args});
+  const config = {
+    headless: true,
+  };
+
+  if (puppeteer_args) {
+    config.args = puppeteer_args;
+  }
+
+  const browser = await puppeteer.launch(config);
   const page = await browser.newPage();
   await page.setContent(html, { waitUntil: 'networkidle0' });
 
-//  await page.goto(`file:${pathToHtml}`, { waitUntil: 'networkidle0' });
+  //  await page.goto(`file:${pathToHtml}`, { waitUntil: 'networkidle0' });
 
   const pdf = await page.pdf(options);
- 
+
   await browser.close();
-  return pdf
+  return pdf;
 };
 
-
-module.exports = function(RED) {
-
+module.exports = function (RED) {
   function HTMLToPDF(config) {
     RED.nodes.createNode(this, config);
     const node = this;
@@ -26,8 +39,14 @@ module.exports = function(RED) {
     this.options = {};
 
     if (config.format === 'custom') {
-      this.options.width = config.width !== '' && !isNaN(config.width) ? `${parseInt(config.width)}${config.widthUnit}` : 1024;
-      this.options.height = config.height !== '' && !isNaN(config.height) ? `${parseInt(config.height)}${config.heightUnit}` : 768;
+      this.options.width =
+        config.width !== '' && !isNaN(config.width)
+          ? `${parseInt(config.width)}${config.widthUnit}`
+          : 1024;
+      this.options.height =
+        config.height !== '' && !isNaN(config.height)
+          ? `${parseInt(config.height)}${config.heightUnit}`
+          : 768;
     }
     this.options.landscape = config.orientation === 'Landscape';
     this.options.omitBackground = config.omitBackground;
@@ -38,33 +57,26 @@ module.exports = function(RED) {
       top: `${config.marginTop}${config.marginTopUnits}`,
       left: `${config.marginLeft}${config.marginLeftUnits}`,
       bottom: `${config.marginBottom}${config.marginBottomUnits}`,
-      right: `${config.marginRight}${config.marginRightUnits}`
-    }
-    
-  
+      right: `${config.marginRight}${config.marginRightUnits}`,
+    };
+
     this.on('input', async (msg, send, done) => {
-
-      if (msg.hasOwnProperty('payload')) {        
-
+      if (msg.hasOwnProperty('payload')) {
         try {
-          const pdf  = await printPDF(msg.payload, this.options);
+          const pdf = await printPDF(msg.payload, this.options);
           msg.payload = pdf;
 
           send(msg);
           done();
-  
         } catch (error) {
           done(error);
         }
-
-
       } else {
         // If no payload just pass it on.
         send(msg);
         done();
       }
 
-      
       // Out
 
       // Once finished, call 'done'.
@@ -74,8 +86,7 @@ module.exports = function(RED) {
         done();
       }
     });
-  };
+  }
 
   RED.nodes.registerType('html-to-pdf', HTMLToPDF);
-
 };
