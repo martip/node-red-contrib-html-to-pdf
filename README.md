@@ -12,12 +12,11 @@ Either use the `Node-RED Menu - Manage Palette - Install`, or run the following 
 
 You pass the HTML source code in the `msg.payload`.
 
-Various options can be set in the node configuration dialog:
+Various options can be set in the node configuration dialog or set as properties of `msg`:
 
-* Format (letter, legal, tabloid, ledger, A0, A1, A2, A3, A4, A5, A6, custom)
-* Orientation (portrait, landscape)
-* Zoom (10% to 200%)
-* Margins
-* Transparent background
-* Show or hide background graphics
-
+- Format (letter, legal, tabloid, ledger, A0, A1, A2, A3, A4, A5, A6, custom)
+- Orientation (portrait, landscape); `msg.orientation`
+- Zoom (10% to 200%); `msg.zoom` (number)
+- Margins; `msg.marginTop`, `msg.marginTopUnits`, `msg.marginLeft` etc.
+- Transparent background; `msg.omitBackground` (`true` or `false`)
+- Show or hide background graphics; `msg.printGraphics` (`true` or `false`)

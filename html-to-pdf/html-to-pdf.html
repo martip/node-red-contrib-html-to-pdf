@@ -113,6 +113,30 @@
   <dl class="message-properties">
     <dt>payload <span class="property-type">string</span></dt>
     <dd>The HTML source code.</dd>
+    <dt>orientation <span class="property-type">string</span></dt>
+    <dd>The orientation of the PDF(</code>portrait</code> or <code>landscape</code>).</dd>
+    <dt>zoom <span class="property-type">number</span></dt>
+    <dd>The zoom level (between 10 and 200).</dd>
+    <dt>marginTop <span class="property-type">number</span></dt>
+    <dd>The top margin.</dd>
+    <dt>marginTopUnits <span class="property-type">string</span></dt>
+    <dd>The top margin units (<code>in</code>, <code>cm</code> or <code>mm</code>).</dd>
+    <dt>marginLeft <span class="property-type">number</span></dt>
+    <dd>The left margin.</dd>
+    <dt>marginLeftUnits <span class="property-type">string</span></dt>
+    <dd>The left margin units (<code>in</code>, <code>cm</code> or <code>mm</code>).</dd>
+    <dt>marginBottom <span class="property-type">number</span></dt>
+    <dd>The bottom margin.</dd>
+    <dt>marginBottomUnits <span class="property-type">string</span></dt>
+    <dd>The bottom margin units (<code>in</code>, <code>cm</code> or <code>mm</code>).</dd>
+    <dt>marginRight <span class="property-type">number</span></dt>
+    <dd>The right margin.</dd>
+    <dt>marginRightUnits <span class="property-type">string</span></dt>
+    <dd>The right margin units (<code>in</code>, <code>cm</code> or <code>mm</code>).</dd>
+    <dt>omitBackground <span class="property-type">boolean</span></dt>
+    <dd>If true, background will be transparent</dd>
+    <dt>printGraphics <span class="property-type">boolean</span></dt>
+    <dd>Wether to print or not the background graphics.</dd>
   </dl>
 
   <h3>Outputs</h3>
@@ -124,7 +148,7 @@
 
   <h3>Details</h3>
 
-  <p>Various options can be set in the node configuration dialog:</p>
+  <p>Various options can be set in the node configuration dialog, if not set in <code>msg</code>:</p>
   <ul>
     <li>Format (letter, legal, tabloid, ledger, A0, A1, A2, A3, A4, A5, A6, custom)</li>
     <li>Orientation (portrait, landscape)</li>
@@ -155,20 +179,26 @@
 
   RED.nodes.registerType('html-to-pdf', {
     category: 'function',
-    color:'#E9967A',
+    color: '#E9967A',
     defaults: {
       name: { value: '' },
       format: { value: 'A4' },
-      zoom: { value: 100, validate: (v) => {
-        return !isNaN(v) && parseInt(v) >= 10 && parseInt(v) <= 200;
-      }},
+      zoom: {
+        value: 100, validate: (v) => {
+          return !isNaN(v) && parseInt(v) >= 10 && parseInt(v) <= 200;
+        }
+      },
       orientation: { value: 'Portrait' },
-      width: { validate: (v) => {
-        return $('#node-input-format').val() === 'custom' ? v.trim() !== '' && !isNaN(v) : true;
-      }},
-      height: { validate: (v) => {
-        return $('#node-input-format').val() === 'custom' ? v.trim() !== '' && !isNaN(v) : true;
-      }},
+      width: {
+        validate: (v) => {
+          return $('#node-input-format').val() === 'custom' ? v.trim() !== '' && !isNaN(v) : true;
+        }
+      },
+      height: {
+        validate: (v) => {
+          return $('#node-input-format').val() === 'custom' ? v.trim() !== '' && !isNaN(v) : true;
+        }
+      },
       widthUnit: { value: 'cm' },
       heightUnit: { value: 'cm' },
       marginTop: { value: 1 },
@@ -185,10 +215,10 @@
     inputs: 1,
     outputs: 1,
     icon: 'html-to-pdf.svg',
-    label: function() {
-      return this.name || 'html to pdf' ;
+    label: function () {
+      return this.name || 'html to pdf';
     },
-    labelStyle: function() {
+    labelStyle: function () {
       return this.name ? 'node_label_italic' : '';
     },
     paletteLabel: 'html to pdf',
@@ -196,11 +226,11 @@
 
       toggleDimensions($('#node-input-format').val() === 'custom');
 
-      
+
       $('#node-input-format').on('change', (e) => {
         toggleDimensions(e.currentTarget.value === 'custom');
       });
-      
+
       $('#node-input-zoom').spinner({ min: 10, max: 200, step: 1 });
 
       $('#node-input-marginTop').spinner({ min: 0.0, max: 100.0, step: 0.1 });
@@ -210,12 +240,12 @@
 
       $('#node-input-width').typedInput({
         type: 'num',
-        types:['num'],
+        types: ['num'],
         typeField: "#node-input-width-type"
       });
       $('#node-input-height').typedInput({
         type: 'num',
-        types:['num'],
+        types: ['num'],
         typeField: "#node-input-height-type"
       });
     }

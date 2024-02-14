@@ -48,19 +48,30 @@ module.exports = function (RED) {
           ? `${parseInt(config.height)}${config.heightUnit}`
           : 768;
     }
-    this.options.landscape = config.orientation === 'Landscape';
-    this.options.omitBackground = config.omitBackground;
-    this.options.printBackground = config.printGraphics;
-    this.options.scale = config.zoom / 100;
-
-    this.options.margin = {
-      top: `${config.marginTop}${config.marginTopUnits}`,
-      left: `${config.marginLeft}${config.marginLeftUnits}`,
-      bottom: `${config.marginBottom}${config.marginBottomUnits}`,
-      right: `${config.marginRight}${config.marginRightUnits}`,
-    };
 
     this.on('input', async (msg, send, done) => {
+      const getOption = (name) => {
+        const property = msg.hasOwnProperty(name) ? msg[name] : config[name];
+        return property;
+      };
+
+      this.options.landscape =
+        getOption('orientation').toLowerCase().trim() === 'landscape';
+      this.options.omitBackground = getOption('omitBackground');
+      this.options.printBackground = getOption('printGraphics');
+      try {
+        this.options.scale = getOption('zoom') / 100;
+      } catch (error) {
+        this.options.scale = 1;
+      }
+
+      this.options.margin = {
+        top: `${getOption('marginTop')}${getOption('marginTopUnits')}`,
+        left: `${getOption('marginLeft')}${getOption('marginLeftUnits')}`,
+        bottom: `${getOption('marginBottom')}${getOption('marginBottomUnits')}`,
+        right: `${getOption('marginRight')}${getOption('marginRightUnits')}`,
+      };
+
       if (msg.hasOwnProperty('payload')) {
         try {
           const pdf = await printPDF(msg.payload, this.options);
